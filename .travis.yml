@@ -1,0 +1,13 @@
+language: java
+
+notifications:
+  on_success: never
+  on_failure: never
+
+addons:
+  sonarcloud:
+    organization: "maurobraga-github"
+    token:
+      secure: $sonar_token
+script:
+  - mvn clean install sonar:sonar  

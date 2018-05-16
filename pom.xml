@@ -1,0 +1,181 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+  	
+  	<groupId>br.com.mrb</groupId>
+  	<artifactId>spring</artifactId>
+  	<version>1.0</version>
+  	<packaging>pom</packaging>
+  	
+    <name>spring</name>
+  	<description>spring</description>
+	<url>https://github.com/MauroBraga/spring</url>
+	
+	<issueManagement>
+		<url>https://github.com/MauroBraga/spring/issues</url>
+		<system>GitHub Issues</system>
+	</issueManagement>
+	
+	<scm>
+		<url>https://github.com/MauroBraga/spring</url>
+		<connection>scm:git:git://github.com/MauroBraga/spring.git</connection>
+		<developerConnection>scm:git:git@github.com/MauroBraga/spring.git</developerConnection>
+	</scm>
+ 	
+  	<developers>
+		<developer>
+			<id>MauroBraga</id>
+			<email>mrb0305@gmail.com</email>
+			<name>Mauro Braga</name>
+			<url>https://github.com/MauroBraga</url>
+		</developer>
+	</developers>
+  	
+  	<modules>
+  		<module>pessoa-service</module>
+	</modules>
+	
+	<properties>
+      	<maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <!--  
+        <sonar.jacoco.reportPaths>./../spring_coverage/target/jacoco.exec</sonar.jacoco.reportPaths>
+        <sonar.junit.reportPaths>./../target/surefire-reports</sonar.junit.reportPaths>
+        <sonar.surefire.reportsPath>./../target/surefire-reports</sonar.surefire.reportsPath>
+        <sonar.failsafe.reportsPath>./../target/failsafe-reports</sonar.failsafe.reportsPath>
+        -->
+    </properties>
+    
+    <build>
+    	<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+			</resource>
+		</resources>
+		<pluginManagement>
+        	<plugins>
+          		<plugin>
+            		<groupId>org.apache.maven.plugins</groupId>
+            		<artifactId>maven-compiler-plugin</artifactId>
+            		<version>3.7.0</version>
+            		<configuration>
+              			<source>${maven.compiler.source}</source>
+              			<target>${maven.compiler.target}</target>
+            		</configuration>
+          		</plugin>
+          		<plugin>
+	                <groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-resources-plugin</artifactId>
+	                <version>3.0.2</version>
+					<configuration>
+						<encoding>${project.build.sourceEncoding}</encoding>
+					</configuration>
+				</plugin>
+        	</plugins>
+      	</pluginManagement>
+    </build>
+    
+    <dependencies>
+    	<!-- PROVIDER Dependency -->
+		<dependency>
+			<groupId>javax</groupId>
+			<artifactId>javaee-api</artifactId>
+			<version>8.0</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>javax.enterprise</groupId>
+			<artifactId>cdi-api</artifactId>
+			<version>2.0</version>
+			<scope>provided</scope>
+		</dependency>
+    </dependencies>
+    
+    <dependencyManagement>
+		<dependencies>
+        	<!-- SLF4J -->
+			<dependency>
+	        	<groupId>org.slf4j</groupId>
+	        	<artifactId>slf4j-log4j12</artifactId>
+	        	<version>1.7.25</version>
+	    	</dependency>
+	  	</dependencies>
+    </dependencyManagement>
+    
+    <distributionManagement>
+  		<repository>
+    		<id>bintray</id>
+    		<url>https://api.bintray.com/maven/amarteleto/maven-repo/framework/;publish=1</url>
+  		</repository>
+	</distributionManagement>
+	
+	<repositories>
+  		<repository>
+    		<id>bintray</id>
+    		<url>http://dl.bintray.com/amarteleto/maven-repo</url>
+    		<releases>
+      			<enabled>true</enabled>
+    		</releases>
+    		<snapshots>
+      			<enabled>true</enabled>
+    		</snapshots>
+  		</repository>
+	</repositories>
+	
+	<profiles>
+  		<profile>
+    		<id>release</id>
+    		<build>
+      			<plugins>
+      				<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+					    <artifactId>maven-release-plugin</artifactId>
+					    <version>2.5.3</version>
+				      	<configuration>
+				        	<useReleaseProfile>false</useReleaseProfile>
+				        	<releaseProfiles>release</releaseProfiles>
+				        	<autoVersionSubmodules>true</autoVersionSubmodules>
+				      	</configuration>
+				      	<dependencies>
+					        <dependency>
+					            <groupId>org.apache.maven.scm</groupId>
+					            <artifactId>maven-scm-provider-gitexe</artifactId>
+					            <version>1.9.5</version>
+					        </dependency>
+					        <dependency>
+					            <groupId>org.apache.maven.scm</groupId>
+					            <artifactId>maven-scm-api</artifactId>
+					            <version>1.9.5</version>
+					        </dependency>
+					    </dependencies>
+				    </plugin>
+      				<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-source-plugin</artifactId>
+						<version>3.0.1</version>
+						<executions>
+		                    <execution>
+		                        <id>attach-sources</id>
+		                        <goals>
+		                            <goal>jar</goal>
+		                        </goals>
+		                    </execution>
+		                </executions>
+					</plugin>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-javadoc-plugin</artifactId>
+						<version>2.10.4</version>
+						<executions>
+							<execution>
+								<goals>
+									<goal>jar</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+      			</plugins>
+    		</build>
+  		</profile>
+	</profiles>
+</project>
